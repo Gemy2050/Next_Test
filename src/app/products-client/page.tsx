@@ -10,13 +10,14 @@ interface IProduct {
 
 function Products() {
   const [products, setProducts] = useState<IProduct[]>([]);
-  console.log("Data From Client", products);
+  console.log("Data on Client From The Route", products);
 
   useEffect(() => {
     async function fetchProdcuts() {
       const data = await (
-        await fetch("http://kidskiosk.runasp.net/api/Product/get-all-products")
+        await fetch(`${location.origin}/api/products`)
       ).json();
+      console.log("Data From Server", data);
       setProducts(data.data);
     }
     fetchProdcuts();
