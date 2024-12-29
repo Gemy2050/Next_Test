@@ -1,5 +1,5 @@
 import axiosInstance from "@/config/axios.config";
-import { fetchImage, processProduct } from "@/utils/functions";
+import { processProduct } from "@/utils/functions";
 import { AxiosError } from "axios";
 import { NextRequest } from "next/server";
 
