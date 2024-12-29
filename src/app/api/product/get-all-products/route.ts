@@ -1,4 +1,5 @@
 import axiosInstance from "@/config/axios.config";
+import { fetchImage, processProduct } from "@/utils/functions";
 import { AxiosError } from "axios";
 import { NextRequest } from "next/server";
 
@@ -8,7 +9,20 @@ export async function GET(req: NextRequest) {
     const query = searchParams.toString();
     const res = await axiosInstance.get(`/Product/get-all-products?${query}`);
     const data = await res.data;
-    return Response.json(data, { status: 200 });
+
+    // *******************************************************
+
+    const products = [];
+
+    for (let i = 0; i < data.data.length; i++) {
+      const product = data.data[i];
+      const res = await processProduct(product);
+      products.push(res);
+    }
+    const result = { ...data, data: products };
+    // *******************************************************
+
+    return Response.json(result, { status: 200 });
   } catch (err) {
     const error = err as AxiosError;
     return Response.json(
